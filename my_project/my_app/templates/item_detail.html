@@ -1,0 +1,717 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}my_app{% endblock title %}
+
+{% block content %}
+ <style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgb(235, 234, 234);
+        }
+       
+        .header-container {
+            width: 100%;
+            background: #fff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 5px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid gray;
+        }
+        .header-content {
+            width: 1200px;
+            max-width: 95%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo img {
+    height: 55px;
+    margin-right: 10px;
+    vertical-align: middle;
+    border-style: none;
+    max-width: 100%;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    display: inline !important;
+
+}
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .login-btn {
+            padding: 10px 20px;
+            background: #FF7900;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+        .cart-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .cart {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    color: #FFFFFF;
+    background-color: #FF7900;
+    border: none;
+}
+       
+        .nav-container {
+            width: 100%;
+            background: #fff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+           
+            top: 55px;
+            z-index: 999;
+        }
+        .nav-bar-wrapper {
+            display: flex;
+            align-items: center;
+            width: 1200px;
+            max-width: 95%;
+            overflow: hidden;
+            position: relative;
+            flex-direction: column;
+        }
+        .nav-bar-content {
+            display: flex;
+            gap: 7%;
+            /* white-space: nowrap; */
+            transition: transform 0.3s ease;
+            align-items: center;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            position: relative;
+            padding: 0 40px;
+        }
+        .nav-bar-content a {
+            color: gray;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+        }
+        .nav-bar-content img {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 5px;
+        }
+        .nav-arrow {
+            background: white;
+            color: #FF7900;
+            border: none;
+            padding: 3px 10px;
+            cursor: pointer;
+            font-size: 18px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            border: 1px solid gray;
+            border-radius: 50%;
+        }
+        .nav-arrow.left {
+            left: 0;
+        }
+        .nav-arrow.right {
+            right: 0;
+        }
+        
+       
+     
+        .main-frame {
+            margin-top: 1%;
+            width: 1200px;
+            max-width: 95%;
+            background: white;
+           
+            
+        }
+     
+        .footer-container {
+            width: 100%;
+            background:  #009879;
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        .footer-content {
+            width: 1200px;
+            max-width: 95%;
+            text-align: center;
+        }
+        .hero{
+    flex: 1;
+    position: relative;
+    perspective: 1000px; 
+    /* background-color: #ebeaea;    */
+}
+.magazine-container {
+    /* display: flex;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 30px;
+    margin-right: 30px; 
+    display: flex;
+    padding: 0;
+    background: white;
+}
+.magazine-image{
+    width: 35%;
+    margin: 0;
+    position: relative;
+}
+
+.magazine-image img {
+    /* width: 100%;
+    max-width: 414px; */
+    height: auto; 
+    margin: 0;
+    padding: 0;
+    width: 56%;
+    max-width: 100%;
+    vertical-align: middle;
+    border-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+
+.read-button {
+    background: #28a745 ;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    width: 100%;
+    font-weight:500px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 18px;
+   
+}
+
+/* Magazine Details */
+.magazine-details {
+    flex: 1 1 auto;
+    padding: 2vh;
+    width:100%
+}
+
+h2 {
+    margin-bottom: 1%;
+    color: #3a3838;
+}
+
+.rating {
+    margin: 0;
+}
+
+.stars {
+    color: gold;
+}
+
+.issue-info {
+    padding-top: 15px;
+    color: rgb(114 110 110);
+    font-size: 12px;
+}
+
+
+.description {
+    font-size: 14px;
+    color: #7d7d7e;
+    margin-bottom: 15px;
+    padding-top: 15px;
+}
+.description a {
+    color: #499ef3;
+    text-decoration: none;
+    font-size: 15px;
+}
+ 
+/* Subscription Options */
+.subscription-options {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+/* .option {
+     background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; 
+    display: flex;
+    flex: 1;
+    border-bottom: 1px solid gray ;
+    border-right: 0;
+    border-left: 0;
+    padding: 1%
+} */
+
+.option ul {
+     padding: 0;
+    margin: 0;
+    list-style: none; 
+    
+}
+
+.option ul li {
+    font-size: 12px;
+    margin: 5px 0;
+    color: #474646;
+    font-weight: bold;
+}
+
+.price {
+     font-size: 20px;
+    font-weight: bold;
+    display: block;
+    margin: 10px 0; 
+    font-size: x-large;
+    
+}
+
+.duration {
+    font-size: 12px;
+    color: gray;
+    display: block;
+    margin-bottom: 10px;
+}
+.price-duration {
+    display : block;
+    text-align: center;
+}
+
+/* Buttons  */
+.subscribe-button {
+    /* background: #008000;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px; */
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.cart-button {
+    background: #f4a900;
+    color: black;
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px; 
+    color: #ffc107;
+    border: 1px solid #ffc107;
+} 
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    background: white;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    border-top:1px solid #ddd ; 
+    gap:21px;
+}
+
+
+.option .details {
+    flex-grow: 1; 
+}
+
+/* Price Section */
+.option .price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 15px;
+}
+
+/* Price Styling */
+.option .price {
+    font-weight: bold;
+    color: #2e2b2b;
+    font-size: 18px;
+}
+
+/* Subscription period text */
+.option .sub-text {
+    font-size: 12px;
+    color: lightgrey;
+    text-align: right;
+}
+
+/* Ensure buttons are aligned to the right */
+/* .option .subscribe-button, */
+.option .cart-button {
+    /* white-space: nowrap; Prevent wrapping */
+    padding: 8px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+/* Subscribe Button */
+.subscribe-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px 13px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+/* Add to Cart Button */
+.cart-button {
+    background-color: #ffc107;
+    color: rgb(75, 72, 72);
+    border: none;
+    cursor: pointer;
+}
+.rating .filled {
+    color: rgb(8, 165, 8);
+font-size: 14px; } 
+.rating .empty{
+    color: gray;
+    font-size: 14px;
+} 
+.rating .rating-score{
+    color: gray;
+    font-size: 14px;
+}
+.rating {
+    
+    font-size: 14px;
+    margin: 2px 0;
+}
+.reader{
+    font-size: 14px;
+    color: #666;
+    font-weight: 200px;
+}
+.newspaper-card {
+    background: white;
+   
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 100%;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+.newspaper-card img {
+    width: 100%;
+   
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 10px;
+    text-align: left;
+    position: relative;
+}
+
+.card-content span {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: rgb(74, 71, 71);
+}
+
+.card-content p {
+    padding-top: 5px;
+    font-size: 11px;
+    color: #666;
+}
+
+.rating {
+    
+    font-size: 14px;
+    margin: 2px 0;
+}
+ /* .nonrating{
+    color: rgb(145, 144, 144);
+    font-size: 14px;
+    margin: 2px 0;
+}  
+   .rating {
+    font-size: 18px;
+   
+} */
+
+.rating .filled {
+    color: #28a745; } 
+.rating .empty{
+    color: rgb(186, 180, 180);
+} 
+.rating .rating-score{
+    color: gray;
+    font-size: 14px;
+}
+
+    
+
+
+.action-icon img {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 160px;
+    bottom: 10px;
+    cursor: pointer;
+}
+.pamplate{margin-top: 10%;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: gray;   }
+  
+    .book-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 20px; 
+    padding-top: 10px;
+    height: auto; 
+    overflow: hidden; 
+} 
+    
+@media (max-width: 1024px) {
+    .book-container {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    }
+    .action-icon img {
+   
+    left: 245px;
+    bottom: 20px;
+   
+}
+}
+
+@media (max-width: 768px) {
+    .book-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    }
+    .action-icon img {
+   
+    left: 288px;
+    bottom: 20px;
+    
+}
+}
+@media (max-width: 480px) {
+    .book-container {
+        grid-template-columns: repeat(1, 1fr); /* 1 card per row */
+    }
+    .action-icon img {
+   
+    left: 335px;
+    bottom: 20px;
+    
+}
+
+
+}
+.mag-info{
+    width: 100%;
+    height: 10%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+.mag-info .sub-content-mag {
+    font-size: 12px;
+    color: #524b4b;
+}
+</style>
+   
+
+
+<div class="main-frame">
+    <section class="hero"> 
+        <div class="magazine-container">
+            <div class="magazine-image">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                <button class="read-button">READ</button>
+            </div>
+
+            <div class="magazine-details">
+                <h2>"{{ item.title }}"</h2>
+                
+                    <div class="rating">
+                        <span class="filled">★ ★ ★ ★</span> 
+                        <span class="empty">★</span>
+                        <span class="rating-info">Average Rating:{{ average_rating|floatformat:1}} / 5</span>
+                    </div>
+                
+                <p class="issue-info">{{ item.date|date:"F, Y" }} issue · Digital access only</p>
+                <p class="description">
+                    Get {{ item.title }} Standard along with 45+ other magazines & newspapers.
+                    <a href="#">Read more</a>
+                </p>
+
+                <div class="subscription-options">
+                    <div class="option">
+                        <ul>
+                            <li> <i class="fa fa-book"></i> Latest and past issues of + magazines & newspapers</li>
+                            <li> <i class='fas fa-calculator'></i> Digital access only. Cancel anytime.</li>
+                            <li><i class='fas fa-book-reader'></i> Share with family members.</li>
+                        </ul>
+                        <div class="price-duration">
+                            <span class="price">₹{{ item.price1 }}</span>
+                            <span class="duration">3 Monthly · access to all</span>
+                        </div>
+                        <button class="subscribe-button">SUBSCRIBE</button>
+                    </div>
+
+                    <div class="option">
+                        <ul>
+                            <li><i class="fa fa-book"></i> Latest and past issues of + magazines & newspapers</li>
+                            <li> <i class='fas fa-calculator'></i> Digital access only. Cancel anytime.</li>
+                            <li><i class='fas fa-book-reader'></i> Share with family members.</li>
+                        </ul>
+                        <div class="price-duration">
+                            <span class="price">₹{{ item.price2 }}</span>
+                            <span class="duration">Yearly · access to all</span>
+                        </div>
+                        <button class="subscribe-button">SUBSCRIBE</button>
+                    </div>
+
+                    <div class="option">
+                        <ul>
+                            <li> <i class="fa fa-book"></i> 360 issues starting from the July of 17, year is 2022</li>
+                            <li> <i class='fas fa-calculator'></i> Digital access only. Cancel anytime.</li>
+                        </ul>
+                        <div class="price-duration">
+                            <span class="price">₹{{ item.price3 }}</span>
+                            <span class="duration">Yearly · this magazine only</span>
+                        </div>
+                        <button onclick="addToCart('{{ category }}', '{{ item.id }}')">Add to Cart</button>
+
+                    </div>
+
+                    <div class="option">
+                        <ul>
+                            <li> <i class='fas fa-calculator'></i> Digital access for this issue only for 10 device</li>
+                        </ul>
+                        <div class="price-duration">
+                            <span class="price">₹{{ item.price4 }}</span>
+                            <span class="duration">This issue</span>
+                        </div>
+                     
+                        <button onclick="addToCart('{{ category }}', '{{ item.id }}')">Add to Cart</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="mag-info">
+            <h2>Magazine Information</h2>
+            <p class="sub-content-mag">{{ item.sub_content }}</p>
+         </div>
+        <div class="pamplet">
+                        
+            <h3>Recent Visits</h3>
+            <div class="book-container">
+                {% for recent_item in recent_items %}
+                    <div class="newspaper-card">
+                        <a href="{% url 'item_detail' category=recent_item.category item_id=recent_item.id %}">
+                            <img src="{{ recent_item.image.url }}" alt="{{ recent_item.title }}">
+                        </a>
+                        <div class="card-content">
+                            <span>{{ recent_item.title|truncatewords:3}}...</span>
+                            <p>{{ recent_item.date|date:"M d, Y" }}</p>
+                            <div class="rating">
+                                <span class="filled">★ ★ ★ ★</span> 
+                                <span class="empty">★</span>
+                                <span class="rating-score">4.0</span>
+                            </div>
+                            <div class="reader">{{ recent_item.readers_count }} readers</div>
+                            <div class="action-icon">
+                                <img src="{% static 'img/subscribe.jpg' %}" alt="Action Icon">
+                            </div> 
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No recent visits yet.</p>
+                {% endfor %}
+            </div>
+            <script>let scrollPosition = 0;
+                const scrollAmount = 200;
+                const navBar = document.getElementById("navBar");
+                const navBarWrapper = document.querySelector(".nav-bar-wrapper");
+            
+                function scrollNav(direction) {
+                    const items = navBar.children;
+                    const firstItem = items[0];
+                    const lastItem = items[items.length - 1];
+                    const maxScroll = navBar.scrollWidth - navBarWrapper.clientWidth;
+            
+                    if (direction === 1) {
+                        // Move first item to end for smooth looping
+                        navBar.appendChild(firstItem);
+                    } else {
+                        // Move last item to the beginning for reverse looping
+                        navBar.prepend(lastItem);
+                    }
+            
+                    // Reset scroll position to maintain smooth transition
+                    navBar.style.transition = "none";
+                    navBar.style.transform = translateX(0);
+            
+                    // Add transition effect for next scroll
+                    setTimeout(() => {
+                        navBar.style.transition = "transform 0.3s ease";
+                    }, 50);
+                }
+                </script>
+
+                
+        <script>
+            function openNewPage(category) {
+                console.log("Navigating to category:", category);
+                window.location.href = window.location.origin + `/viewall/?category=${category}`;
+            }
+            
+        </script>
+       
+        
+    </section>
+</div>
+{%endblock%}
+

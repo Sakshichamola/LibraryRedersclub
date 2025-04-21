@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}my_app{% endblock title %}
+
+{% block content %}
+   
+    <style>
+        .container {
+            padding: 20px;
+        }
+        .category-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .newspaper-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .item-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 250px;
+            background: white;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .item-card img {
+            width: 100%;
+            height: 150;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .rating {
+            font-size: 14px;
+            font-weight: bold;
+            color: #f39c12;
+        }
+    </style>
+
+
+
+    <div class="container">
+        <h2 class="category-title">{{ category|title }} - All Items</h2>
+
+        <div class="newspaper-section">
+            {% for item in items %}
+                <div class="item-card">
+                    <a href="{% url 'item_detail' category=category item_id=item.id %}">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                    <a>
+                    <h4 class="section-header">{{ item.title }}</h4>
+                    <p>{{ item.date|date:"M d, Y" }}</p>
+                    <div class="rating rating-{{ item.rating }}">
+                        <span class="rating-score">{{ item.rating }}.0</span>
+                    </div>
+                    <p>{{ item.readers }} readers</p>
+                </div>
+            {% empty %}
+                <p>No items found in this category.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    
+   
+   
+        <script>
+        let scrollPosition = 0;
+        const scrollAmount = 200;
+        const navBar = document.getElementById("navBar");
+        const navBarWrapper = document.querySelector(".nav-bar-wrapper");
+    
+        function scrollNav(direction) {
+            const items = navBar.children;
+            const firstItem = items[0];
+            const lastItem = items[items.length - 1];
+            const maxScroll = navBar.scrollWidth - navBarWrapper.clientWidth;
+    
+            if (direction === 1) {
+                // Move first item to end for smooth looping
+                navBar.appendChild(firstItem);
+            } else {
+                // Move last item to the beginning for reverse looping
+                navBar.prepend(lastItem);
+            }
+    
+            // Reset scroll position to maintain smooth transition
+            navBar.style.transition = "none";
+            navBar.style.transform = `translateX(0)`;
+    
+            // Add transition effect for next scroll
+            setTimeout(() => {
+                navBar.style.transition = "transform 0.3s ease";
+            }, 50);
+        }
+        
+        
+        document.addEventListener("DOMContentLoaded", function() {
+    const scrollContainer = document.querySelector(".newspaper-list");
+    const leftArrow = document.querySelector(".scroll-arrow.left");
+    const rightArrow = document.querySelector(".scroll-arrow.right");
+
+    function scrollLeft() {
+        if (scrollContainer.scrollLeft === 0) {
+            // Jump to the end
+            scrollContainer.scrollLeft = scrollContainer.scrollWidth;
+        } else {
+            scrollContainer.scrollBy({ left: -235, behavior: "smooth" });
+        }
+    }
+
+    function scrollRight() {
+        if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 1) {
+            // Jump to the beginning
+            scrollContainer.scrollLeft = 0;
+        } else {
+            scrollContainer.scrollBy({ left: 235, behavior: "smooth" });
+        }
+    }
+
+    leftArrow.addEventListener("click", scrollLeft);
+    rightArrow.addEventListener("click", scrollRight);
+});
+
+
+    </script>
+
+
+
+
+    <script>
+        function openNewPage(category) {
+            console.log("Navigating to category:", category);
+            window.location.href = window.location.origin + `/viewall/?category=${category}`;
+        }
+        
+    </script>
+    
+
+{% endblock %}

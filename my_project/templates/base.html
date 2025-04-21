@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ReaderClub{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+   
+</head>
+<body>
+   
+    <div class="header-container">
+        <div class="header-content">
+            <div class="logo">
+                <a href="{% url 'user_dashboard' %}">
+                    <img src="{% static 'img/reader club logo.png' %}" alt="Reader Club Logo">
+                </a>
+            </div>
+
+
+         <div class="cart-login">
+            <div class="Login_Signup">
+            
+                {% if user.is_authenticated %}
+                <!-- Show Profile Section -->
+                <div class="profile-menu">
+                    <button id="profile-btn">
+                        <i class="fas fa-user"></i> {{ user.username }} ▼
+                    </button>
+                    <div id="dropdown-menu" class="dropdown-content">
+                        <a href="{% url 'profile' %}">Profile Details</a>
+                        <a href="{% url 'settings' %}">Settings</a>
+                        <a href="{% url 'purchase_history' %}">Purchase History</a>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Show Login and Signup Buttons -->
+                <button class="login-btn" onclick=window.location.href="{% url 'login' %}">Log In/Sign Up</button>
+            {% endif %}
+                </div>
+                <button class="cart">
+                <img src="{% static 'img/shopping-cart.png' %}" alt="">
+                </button>
+                <span id="cart-count">0</span>
+                
+         </div>
+            </div>
+
+
+            
+        </div>
+    </div>
+
+        <div class="nav-container">
+        <div class="nav-bar-wrapper">
+            <button class="nav-arrow left" onclick="scrollNav(-1)">❮</button>
+            <div class="nav-bar-content" id="navBar">
+                <a href="javascript:void(0);" onclick="openNewPage('popular')">
+                    <img src="{% static 'img/popular.png' %}" alt="Popular"> Popular
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('new_arrivals')">
+                    <img src="{% static 'img/new arrival.png' %}" alt="New Arrivals"> New Arrivals
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('business')">
+                    <img src="{% static 'img/business.png' %}" alt="Business"> Business
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('newspaper')">
+                    <img src="{% static 'img/newspaper.png' %}" alt="Newspaper"> Newspaper
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('magazine')">
+                    <img src="{% static 'img/magazine icon.png' %}" alt="Magazine"> Magazine
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('lifestyles')">
+                    <img src="{% static 'img/lifestyles.png' %}" alt="Lifestyles"> Lifestyles
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('entertainment')">
+                    <img src="{% static 'img/entertainment.png' %}" alt="Entertainment"> Entertainment
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('fashion')">
+                    <img src="{% static 'img/fashion.png' %}" alt="Fashion"> Fashion
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('technology')">
+                    <img src="{% static 'img/technology.png' %}" alt="Technology"> Technology
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('comic')">
+                    <img src="{% static 'img/comic.png' %}" alt="Comic"> Comic
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('sport')">
+                    <img src="{% static 'img/sport.png' %}" alt="Sport"> Sport
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('autocar')">
+                    <img src="{% static 'img/autocar.png' %}" alt="Autocar"> Autocar
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('holiday')">
+                    <img src="{% static 'img/holiday.png' %}" alt="Holiday"> Holiday
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('health')">
+                    <img src="{% static 'img/helath.png' %}" alt="Health"> Health
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('fitness')">
+                    <img src="{% static 'img/fitness.png' %}" alt="Fitness"> Fitness
+                </a>
+                <a href="javascript:void(0);" onclick="openNewPage('competitive_exam')">
+                    <img src="{% static 'img/competative exam.png' %}" alt="Competitive Exam"> Competitive Exam
+                </a>
+            </div>
+            <button class="nav-arrow right" onclick="scrollNav(1)">❯</button>
+        </div>
+    </div>
+    <div>
+      {% block content %}
+      {% endblock content %}
+    </div>
+    
+<div class="footer-container">
+    <div class="footer-content"> 
+    <div class="footer-top">
+        <p>Subscribe now and enjoy unlimited reading on <br>
+            <span>iPad, iPhone & Android</span> devices at no extra cost</p>
+        <div class="app-buttons">
+            <img src="{% static "img/appstore logo footer.png" %}" alt="App Store">
+            <img src="{% static  "img/playstore logo footer.png" %}" alt="Google Play">
+            <img src="{% static "img/ms_appsource logo footeer.webp" %}" alt="Microsoft AppSource">
+        </div>
+    </div>
+
+    <div class="footer-links">
+        <div class="footer-column">
+            <h3>ABOUT</h3>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Testimonials</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>PUBLISHERS</h3>
+            <ul>
+                <li><a href="#">Publisher Login</a></li>
+                <li><a href="#">Publish on ReaderClub</a></li>
+                <li><a href="#">Publisher Support</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>HELP</h3>
+            <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Site Map</a></li>
+                <li><a href="#">Feedback</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>POLICY</h3>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="#">Child Policy</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <img src="{%  static "img/footerlogo.png" %}" alt="ReaderClub Logo">
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="social-icons">
+            <img src="{% static "img/facebook.png" %}"alt="Facebook">
+            <img src="{% static "img/X.png" %}" alt="Twitter">
+            <img src="{% static "img/insta.jpeg" %}" alt="Instagram">
+        </div>
+    </div>
+
+   
+        <p class="copyright"></i>© 2025 ReaderClub. All Rights Reserved.</p>
+    </div>
+</div>
+
+<script>
+    let scrollPosition = 0;
+    const scrollAmount = 200;
+    const navBar = document.getElementById("navBar");
+    const navBarWrapper = document.querySelector(".nav-bar-wrapper");
+
+    function scrollNav(direction) {
+        const items = navBar.children;
+        const firstItem = items[0];
+        const lastItem = items[items.length - 1];
+        const maxScroll = navBar.scrollWidth - navBarWrapper.clientWidth;
+
+        if (direction === 1) {
+            // Move first item to end for smooth looping
+            navBar.appendChild(firstItem);
+        } else {
+            // Move last item to the beginning for reverse looping
+            navBar.prepend(lastItem);
+        }
+
+        // Reset scroll position to maintain smooth transition
+        navBar.style.transition = "none";
+        navBar.style.transform = `translateX(0)`;
+
+        // Add transition effect for next scroll
+        setTimeout(() => {
+            navBar.style.transition = "transform 0.3s ease";
+        }, 50);
+    }
+    
+    
+    document.addEventListener("DOMContentLoaded", function() {
+const scrollContainer = document.querySelector(".newspaper-list");
+const leftArrow = document.querySelector(".scroll-arrow.left");
+const rightArrow = document.querySelector(".scroll-arrow.right");
+
+function scrollLeft() {
+    if (scrollContainer.scrollLeft === 0) {
+        // Jump to the end
+        scrollContainer.scrollLeft = scrollContainer.scrollWidth;
+    } else {
+        scrollContainer.scrollBy({ left: -235, behavior: "smooth" });
+    }
+}
+
+function scrollRight() {
+    if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 1) {
+        // Jump to the beginning
+        scrollContainer.scrollLeft = 0;
+    } else {
+        scrollContainer.scrollBy({ left: 235, behavior: "smooth" });
+    }
+}
+
+leftArrow.addEventListener("click", scrollLeft);
+rightArrow.addEventListener("click", scrollRight);
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+document.querySelectorAll(".scroll-arrow").forEach(button => {
+    button.addEventListener("click", function () {
+        let scrollContainer = this.parentElement.querySelector(".newspaper-list");
+        let direction = this.classList.contains("left") ? -1 : 1;
+        scrollContainer.scrollBy({ left: direction * 300, behavior: "smooth" });
+    });
+});
+});
+
+</script>
+<script>
+document.getElementById("profile-btn").addEventListener("click", function () {
+    var dropdown = document.getElementById("dropdown-menu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", function (event) {
+    var dropdown = document.getElementById("dropdown-menu");
+    var profileBtn = document.getElementById("profile-btn");
+    if (!profileBtn.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = "none";
+    }
+});
+
+</script>
+<script>
+    function addToCart(itemId) {
+        fetch(`/cart/add/${itemId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ quantity: 1 })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // ✅ Update cart count dynamically
+                document.getElementById("cart-count").textContent = data.cart_count;
+            } else {
+                alert("Failed to add item to cart");
+            }
+        })
+        .catch(error => console.error("Error adding to cart:", error));
+    }
+    
+    // Function to get CSRF Token
+    function getCSRFToken() {
+        return document.cookie.split('; ')
+            .find(row => row.startsWith('csrftoken='))
+            ?.split('=')[1];
+    }
+    </script>
+    
+
+</body>
+</html>

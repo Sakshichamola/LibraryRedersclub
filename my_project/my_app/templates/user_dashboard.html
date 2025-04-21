@@ -1,0 +1,289 @@
+        {% extends 'base.html' %}
+        {% load static %}
+        {% block title %}my_app{% endblock title %}
+        
+        {% block content %}
+    
+        <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
+
+
+
+
+        <div class="main-frame">
+            <section class="hero">
+                <section class="hero-container">
+                    <div class="hero-sections" id="heroSlider">
+                        <div class="hero hero-section">
+                            <div class="background">
+                                <img src="{% static "img/newspapers-hd.png" %}" alt="Background Image" />
+                            </div>
+                            <div class="card-container">
+                                <h1>
+                                    <img src="{% static "img/cardnews.png" %}" alt="Newspaper Icon" class="heading-icon">
+                                    Newspapers
+                                </h1>
+                                <p>Most popular around the world..</p>
+                                <div class="hero-buttons">
+                                    <button class="show-all">
+                                        <img src="{% static "img/show(3).png" %}" alt="Show All Icon" class="button-icon"> Show All
+                                    </button>
+                                    <button class="subscribe">
+                                        <img src="{% static "img/hand-icon.png" %}" alt="Subscribe Icon" class="button-icon"> Subscribe
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero hero-section">
+                            <div class="background">
+                                <img src="{% static "img/travel-hd.png" %}"alt="Background Image" />
+                            </div>
+                            <div class="card-container">
+                                <h1>
+                                    <img src="{% static "img/travel-lifestyle.png" %}" alt="Travel Icon" class="heading-icon">
+                                    Travel & Lifestyle
+                                </h1>
+                                <p>Explore the world’s best destinations..</p>
+                                <div class="hero-buttons">
+                                    <button class="show-all">
+                                        <img src="{% static "img/show(3).png" %}" alt="Show All Icon" class="button-icon"> Show All
+                                    </button>
+                                    <button class="subscribe">
+                                        <img src="{% static "img/hand-icon.png" %}" alt="Subscribe Icon" class="button-icon"> Subscribe
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="arrow prev" onclick="prevSlide()">&#10094;</button>
+                    <button class="arrow next" onclick="nextSlide()">&#10095;</button>
+                </section>
+                
+                <script>
+                    let currentIndex = 0;
+                    function showSlide(index) {
+                        const slider = document.getElementById('heroSlider');
+                        const totalSlides = document.querySelectorAll('.hero-section').length;
+                        if (index >= totalSlides) currentIndex = 0;
+                        else if (index < 0) currentIndex = totalSlides - 1;
+                        else currentIndex = index;
+                        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    }
+                    function nextSlide() { showSlide(currentIndex + 1); }
+                    function prevSlide() { showSlide(currentIndex - 1); }
+                </script>
+                
+            
+                
+            
+                
+                
+
+                {% for category_name, items in categorized_items.items %}
+                    <div class="newspaper-section">
+                        <div class="section-header">
+                            <h2>{{ category_name|title }}</h2>
+                            <button class="view-all" onclick="openNewPage('{{ category_name }}')">
+                                <img src="{% static 'img/show(3).png' %}" alt="View All Icon"> View All
+                            </button>
+                        </div>
+                
+                        <script>
+                            function openNewPage(category) {
+                                window.location.href = "/viewall/?category=" + encodeURIComponent(category);
+                            }
+                        </script>
+                
+                        <div class="newspaper-container">
+                            <button class="scroll-arrow left">❮</button>
+                
+                            <div class="newspaper-list">
+                                {% for item in items %}
+                                    <div class="newspaper-card">
+                                        <a href="{% url 'item_detail' category=item.category_name item_id=item.id %}">
+                                        <img class= "image" src="{{ item.image.url }}" alt="{{ item.title }}">
+                                        </a>
+                                        <div class="card-content">
+                                            <span>{{ item.title|truncatewords:3}}...</span>
+                                            <p>{{ item.date|date:"M d, Y" }}</p>
+                                        
+                                            <div class="rating">
+                                                <span class="filled">★ ★ ★ ★</span> 
+                                                <span class="empty">★</span>
+                                                <span class="rating-score">4.0</span>
+                                            </div>
+                
+                                            <div class="reader">
+                                                <p>{{ item.readers }} readers</p>
+                                            </div>
+                
+                                            <div class="action-icon">
+                                                <a href="read.html">
+                                                    <img src="{% static 'img/subscribe.jpg' %}" alt="Action Icon">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                
+                            <button class="scroll-arrow right">❯</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            
+                    
+            
+        
+                
+            
+                
+                
+
+
+        {% comment %} </div>
+        <div class="footer-container">
+            <div class="footer-content">
+            <div class="footer-top">
+                <p>Subscribe now and enjoy unlimited reading on <br>
+                    <span>iPad, iPhone & Android</span> devices at no extra cost</p>
+                <div class="app-buttons">
+                    <img src="{% static "img/appstore logo footer.png" %}" alt="App Store">
+                    <img src="{% static  "img/playstore logo footer.png" %}" alt="Google Play">
+                    <img src="{% static "img/ms_appsource logo footeer.webp" %}" alt="Microsoft AppSource">
+                </div>
+            </div>
+        
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>ABOUT</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>PUBLISHERS</h3>
+                    <ul>
+                        <li><a href="#">Publisher Login</a></li>
+                        <li><a href="#">Publish on ReaderClub</a></li>
+                        <li><a href="#">Publisher Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>HELP</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Site Map</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>POLICY</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Child Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <img src="{%  static "img/footerlogo.png" %}" alt="ReaderClub Logo">
+                </div>
+            </div>
+        
+            <div class="footer-bottom">
+                <div class="social-icons">
+                    <img src="{% static "img/facebook.png" %}"alt="Facebook">
+                    <img src="{% static "img/X.png" %}" alt="Twitter">
+                    <img src="{% static "img/insta.jpeg" %}" alt="Instagram">
+                </div>
+            </div>
+        
+        
+                <p class="copyright"></i>© 2025 ReaderClub. All Rights Reserved.</p>
+            </div>
+        </div>
+        {% endcomment %}
+        
+
+        <script>
+
+
+
+
+
+
+            let scrollPosition = 0;
+            const scrollAmount = 200;
+            const navBar = document.getElementById("navBar");
+            const navBarWrapper = document.querySelector(".nav-bar-wrapper");
+        
+            function scrollNav(direction) {
+                const items = navBar.children;
+                const firstItem = items[0];
+                const lastItem = items[items.length - 1];
+                const maxScroll = navBar.scrollWidth - navBarWrapper.clientWidth;
+        
+                if (direction === 1) {
+                    // Move first item to end for smooth looping
+                    navBar.appendChild(firstItem);
+                } else {
+                    // Move last item to the beginning for reverse looping
+                    navBar.prepend(lastItem);
+                }
+        
+                // Reset scroll position to maintain smooth transition
+                navBar.style.transition = "none";
+                navBar.style.transform = `translateX(0)`;
+        
+                // Add transition effect for next scroll
+                setTimeout(() => {
+                    navBar.style.transition = "transform 0.3s ease";
+                }, 50);
+            }
+            
+            
+            document.addEventListener("DOMContentLoaded", function() {
+        const scrollContainer = document.querySelector(".newspaper-list");
+        const leftArrow = document.querySelector(".scroll-arrow.left");
+        const rightArrow = document.querySelector(".scroll-arrow.right");
+
+        function scrollLeft() {
+            if (scrollContainer.scrollLeft === 0) {
+                // Jump to the end
+                scrollContainer.scrollLeft = scrollContainer.scrollWidth;
+            } else {
+                scrollContainer.scrollBy({ left: -235, behavior: "smooth" });
+            }
+        }
+
+        function scrollRight() {
+            if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth - 1) {
+                // Jump to the beginning
+                scrollContainer.scrollLeft = 0;
+            } else {
+                scrollContainer.scrollBy({ left: 235, behavior: "smooth" });
+            }
+        }
+
+        leftArrow.addEventListener("click", scrollLeft);
+        rightArrow.addEventListener("click", scrollRight);
+    });
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".scroll-arrow").forEach(button => {
+            button.addEventListener("click", function () {
+                let scrollContainer = this.parentElement.querySelector(".newspaper-list");
+                let direction = this.classList.contains("left") ? -1 : 1;
+                scrollContainer.scrollBy({ left: direction * 300, behavior: "smooth" });
+            });
+        });
+    });
+
+
+        </script>
+        
+        
+    {% endblock content %}

@@ -1,0 +1,18 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Publisher Dashboard</title>
+</head>
+<body>
+    <h2>Publisher Dashboard</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Publish</button>
+    </form>
+    <br>
+   <button> <a href="{% url 'user_dashboard' %}">visit Home Page</a></button>
+   
+</body>
+</html>
